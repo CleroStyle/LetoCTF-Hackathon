@@ -20,6 +20,7 @@ class generator(object):
         generate_round = Round()
         generate_round.type = type
         generate_round.answer = answer
+        generate_round.path_image = self.get_image(type)
         generate_round.instructor_text = self.generate_instructor_text(self, type, answer)
         generate_round.version_answer = self.generate_version_answer(self, type, count_version, count, answer)
         return generate_round
@@ -48,6 +49,18 @@ class generator(object):
         version.append(answer)
         random.shuffle(version)
         return version
+
+
+    def get_image(self, type: type_round):
+        text = ""
+        if type == type_round.color:
+            text = "source\\bomb_colors.png"
+        elif type == type_round.code:
+            text = "source\\bomb_numbers.png"
+        else:
+            text = "source\\bomb_diractions.png"
+        return text
+
 
     def generate_answer(self, type: type_round, count: int):
         text = ""
