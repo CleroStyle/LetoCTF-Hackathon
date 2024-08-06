@@ -1,8 +1,9 @@
 from dataclasses import dataclass
 
 
+@dataclass
 class Message:
     message_id: int
-    image: str = None  # path
     text: str
     is_successful: bool
+    image: str = None  # path
