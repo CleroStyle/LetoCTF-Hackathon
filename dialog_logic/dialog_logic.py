@@ -2,14 +2,14 @@
     Модуль для генерации диалогов.
 """
 from dialogs import *
-from task_generator.task_generator import TaskGenerator
+from task_generator import Generator
 from common import User
 
 
 class DialogLogic:
     storage: dict = dict()         # dict = {tg_id: user}
     match_making: MatchMaking = MatchMaking()
-    task_generator: TaskGenerator = TaskGenerator()
+    task_generator: Generator = Generator()
 
     def process_new_message(self, tg_id: str, text: str):
         user = self.storage.get(tg_id)
@@ -34,7 +34,6 @@ class DialogLogic:
                 self.send_message(user.tg_id, f"Ваш рейтинг {user.rating}")
             else:
                 user.current_dialog.temp(text)
-
 
     @staticmethod
     def send_message(tg_id: str, text: str):

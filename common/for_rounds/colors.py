@@ -1,7 +1,7 @@
 import enum
 
 
-class colors(enum.Enum):
+class Colors(enum.Enum):
     red = 'красный'
     blue = 'синий'
     yellow = 'жёлтый'

@@ -1,7 +1,7 @@
 import enum
 
 
-class directions(enum.Enum):
+class Directions(enum.Enum):
     top = '↑'
     left = '←'
     right = '→'
