@@ -3,7 +3,9 @@ from datetime import datetime
 
 import enum
 
-from common.task_type import TaskType
+from common.type_round import TypeRound
+
+# from common.task_type import TaskType < dialog
 
 
 class RoundStatus(enum.Enum):
@@ -12,10 +14,11 @@ class RoundStatus(enum.Enum):
     finished = 2
     failed = 3
 
+
 @dataclass
 class Round:
     round_id: int
-    task_type: TaskType
+    task_type: TypeRound
     text_for_instructor: str
     right_answer: str
     choices: list[str]
