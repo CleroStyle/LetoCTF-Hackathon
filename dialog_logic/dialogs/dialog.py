@@ -49,12 +49,12 @@ class Dialog:
 
     def match(self, message: str):
         if message == CommandText.match:
-            self._send_message(self.user.tg_id, "Ура! Уже ищем тебе тиммейта")
+            self._send_message(self.user.tg_id, "Ура! Уже ищем тебе тиммейта.")
             self.user.status = StatusUser.finding
             teammate = self._match_making.add_matches(self.user)
             if teammate:
-                self._send_message(self.user.tg_id, f"Ура, твой тиммейт {teammate.tg_username} c id {teammate.tg_id}")
-                self._send_message(teammate.tg_id, f"Ура, твой тиммейт {self.user.tg_username} c id {self.user.tg_id}")
+                self._send_message(self.user.tg_id, f"Ура, твой тиммейт {teammate.tg_username} c юзернеймом {teammate.tg_id}.")
+                self._send_message(teammate.tg_id, f"Ура, твой тиммейт {self.user.tg_username} c юзернеймом {self.user.tg_id}.")
 
                 self.user.status = StatusUser.in_match
                 teammate.status = StatusUser.in_match
@@ -63,11 +63,11 @@ class Dialog:
                 self.user.current_round = round
                 teammate.current_round = round
 
-                self._send_message(self.user.tg_id, f"Сгенирировали бомбу")
-                self._send_message(teammate.tg_id, f"Сгенирировали бомбу")
+                self._send_message(self.user.tg_id, f"Бомба сгенерирована!")
+                self._send_message(teammate.tg_id, f"Бомба сгенерирована!")
 
-                self._send_message(self.user.tg_id, f"Ищите друг друга и начинаете игру!")
-                self._send_message(teammate.tg_id, f"Ищите друг друга и начинаете игру!")
+                self._send_message(self.user.tg_id, f"Встретьтесь друг с другом и начните играть!")
+                self._send_message(teammate.tg_id, f"Встретьтесь друг с другом и начните играть!")
 
                 self._send_keyboards(self.user.tg_id, [CommandText.start_play, CommandText.not_play])
                 self._send_keyboards(teammate.tg_id, [CommandText.start_play, CommandText.not_play])
@@ -77,7 +77,7 @@ class Dialog:
             else:
                 self._send_message(self.user.tg_id, f"Ждем новых игроков!")
         elif message == CommandText.not_play:
-            self._send_message(self.user.tg_id, f"Если захочешь - пиши")
+            self._send_message(self.user.tg_id, f"Если захочешь поиграть - пиши.")
             self._send_keyboards(self.user.tg_id, [CommandText.start_play])
         else:
             self._send_message(self.user.tg_id, f"Используй клавиатуру!")
@@ -99,8 +99,8 @@ class Dialog:
                 self.user.status = StatusUser.instructor
             elif self.user.teammate.status == StatusUser.instructor:
                 self.user.status = StatusUser.sapper
-                self._send_message(self.user.tg_id, f"Ура! Ты - сапер")
-                self._send_message(self.user.teammate.tg_id, f"Ура! Ты - инструктор")
+                self._send_message(self.user.tg_id, f"Ура! Ты - сапер.")
+                self._send_message(self.user.teammate.tg_id, f"Ура! Ты - инструктор.")
 
                 user = self.user    # sapper
                 teammate = self.user.teammate   # instructor
@@ -113,17 +113,17 @@ class Dialog:
                 user.current_round.status = RoundStatus.started
                 user.current_round.time = datetime.now()
                 self._send_message(user.tg_id, f"Время пошло! У вас 3 секунды!!!")
-                self._send_message(teammate.tg_id, f"Время пошло! У вас 3 секунды")
+                self._send_message(teammate.tg_id, f"Время пошло! У вас 3 секунды.")
 
                 self.temp = self.wait_right_word
                 teammate.current_dialog.temp = teammate.current_dialog.wait_right_word
             else:
-                self._send_message(self.user.tg_id, "Какая-то ошибка обратитесь к администратору!")
+                self._send_message(self.user.tg_id, "Какая-то ошибка. Обратитесь к администратору!")
         else:
             if self.user.teammate:
                 if self.user.status == StatusUser.instructor:
                     self._send_message(self.user.tg_id, f"Ждем подтверждения второго игрока!")
-                    self._send_message(self.user.teammate.tg_id, f"Ждем только вас!!!")
+                    self._send_message(self.user.teammate.tg_id, f"Ждем только вас!")
                     self._send_keyboards(self.user.teammate.tg_id, [CommandText.start_play, CommandText.not_play])
                 else:
                     self._send_keyboards(self.user.tg_id, [CommandText.start_play, CommandText.not_play])
@@ -136,13 +136,13 @@ class Dialog:
 
     def wait_right_word(self, message: str):
         if self.user.status == StatusUser.instructor:
-            self._send_message(self.user.tg_id, f"Отвечать должен второй игрок!!!")
+            self._send_message(self.user.tg_id, f"Отвечать должен второй игрок!")
             return
 
         round = self.user.current_round
         if datetime.now() - timedelta(seconds=300) >= round.time:
-            self._send_message(self.user.tg_id, "О, нет... Вы не успели")
-            self._send_message(self.user.teammate.tg_id, "О, нет... Вы не успели")
+            self._send_message(self.user.tg_id, "О, нет... Вы не успели.")
+            self._send_message(self.user.teammate.tg_id, "О, нет... Вы не успели.")
 
             round.status = RoundStatus.failed
 
@@ -165,8 +165,8 @@ class Dialog:
             self._send_message(self.user.teammate.tg_id, "Это правильный ответ!")
 
             if self.user.count_current_round == 3:
-                self._send_message(self.user.teammate.tg_id, "Вы были отличной коммандой")
-                self._send_message(self.user.tg_id, "Вы были отличной коммандой")
+                self._send_message(self.user.teammate.tg_id, "Вы были отличной коммандой.")
+                self._send_message(self.user.tg_id, "Вы были отличной коммандой.")
 
                 self.temp = self.match
                 teammate = self.user.teammate
