@@ -4,6 +4,7 @@ from common.round import Round, RoundStatus
 from .command_text import CommandText
 from .match_making import MatchMaking
 from common.user import User, StatusUser
+from source.text_for_bot import TextForBot
 
 
 class Dialog:
@@ -36,11 +37,12 @@ class Dialog:
             self.temp = self.match
             return
         if self.user.status == StatusUser.not_playing:
-            self._send_message(self.user.tg_id, "Хочешь сыграть?")
+            self._send_message(self.user.tg_id, TextForBot.do_yo_wanna)
             self._send_keyboards(self.user.tg_id, [CommandText.match, CommandText.not_play])
             return
-        self._send_message(self.user.tg_id, "Здравствуй, игрок!")
-        self._send_message(self.user.tg_id, "Готов ли ты к новому вызову?")
+        self._send_message(self.user.tg_id, TextForBot.hello)
+        self._send_message(self.user.tg_id, TextForBot.rule)
+        self._send_message(self.user.tg_id, TextForBot.are_you_ready)
         self._send_keyboards(self.user.tg_id, [CommandText.match, CommandText.not_play])
 
         self.temp = self.match
