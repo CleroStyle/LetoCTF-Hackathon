@@ -89,18 +89,18 @@ class Generator:
 
     @staticmethod
     def generate_text_for_color(generate_str: str):
-        returned_str = "Саперу нужно перерезать: " + generate_str + " провода"
+        returned_str = f"Саперу нужно перерезать: <b>{generate_str}</b> провода"
         return returned_str
 
     @staticmethod
     def generate_text_for_code(generate_str: str):
-        returned_str = "Саперу необходимо ввести следующую комбинацию: " + generate_str
+        returned_str = f"Саперу необходимо ввести следующую комбинацию: <b>{generate_str}</b>"
         return returned_str
     
 
     @staticmethod
     def generate_text_for_message(generate_str: str):
-        returned_str = "Вам необходимо указать правильные направления сапёру: " + generate_str
+        returned_str = f"Вам необходимо указать правильные направления сапёру: <b>{generate_str}</b>"
         return returned_str
 
     @staticmethod
