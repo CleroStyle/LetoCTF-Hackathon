@@ -1,13 +1,12 @@
 from dataclasses import dataclass
 
-from task_type import TaskType
+from common.type_round import type_round
 
 
 @dataclass
 class Round:
-    round_id: int
-    image: str  # path
-    task_type: TaskType
-    text_for_instructor: str
-    right_answer: str
-    choices: list[str]
+    path_image: str
+    type: type_round
+    instructor_text: str
+    version_answer: list
+    answer: str
