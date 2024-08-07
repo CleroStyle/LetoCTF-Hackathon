@@ -62,6 +62,8 @@ class Behavior:
                             chat_id: str,
                             choices: list[str] = None,
                             text: str = "Напоминаю, что ты играешь в <b>супер</b> крутую игру - <b> БОМБА 💣</b>"):
+        if text is None:
+            text = "Напоминаю, что ты играешь в <b>супер</b> крутую игру - <b> БОМБА 💣</b>"
         keyboard = KeyboardHandler().create_kb(choices)
         await self._bot.send_message(chat_id, text, reply_markup=keyboard,
                                      parse_mode=ParseMode.HTML)

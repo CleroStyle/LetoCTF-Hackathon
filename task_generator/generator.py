@@ -29,6 +29,8 @@ class Generator:
             choices=self.generate_version_answer(round_type, count_version, count, answer),
             image=self.get_image(round_type)
         )
+        if generate_round.right_answer not in generate_round.choices:
+            generate_round.choices.append(generate_round.right_answer)
         return generate_round
 
     @staticmethod

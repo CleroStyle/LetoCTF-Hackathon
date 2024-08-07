@@ -37,11 +37,15 @@ class MatchMaking:
             teammate.teammate = None
             teammate.current_round = None
             teammate.count_current_round = 0
+            if teammate in self.findings:
+                self.findings.remove(teammate)
 
         user.status = StatusUser.not_playing
         user.teammate = None
         user.current_round = None
         user.count_current_round = 0
+        if user in self.findings:
+            self.findings.remove(user)
 
     def set_not_playing(self, user: User = None):
         if user in self.findings:

@@ -37,17 +37,30 @@ class DialogLogic:
             await self.process_new_message(user, message.text)
 
     async def process_new_message(self, user: User, text: str):
-        if text == CommandText.not_play:
+        if text == CommandText.not_play or text == CommandText.start:
             if user.teammate is not None:
                 user.teammate.current_dialog.temp = user.teammate.current_dialog.match
                 await self.send_message(user.teammate.tg_id, f"Твой тиммейт не хочет играть!")
                 await self.send_keyboard(user.teammate.tg_id,
                                 [CommandText.match, CommandText.rating, CommandText.not_play])
 
+            await self.send_message(user.tg_id, f" 〽️ Как захочешь поиграть -- пиши, не стейсняйся! ")
+            await self.send_keyboard(user.tg_id,
+                             [CommandText.match, CommandText.rating, CommandText.not_play])
             self.match_making.delete_match(user)
             user.current_dialog.temp = user.current_dialog.start
         elif text == CommandText.rating:
-            await self.send_message(user.tg_id, f"Ваш рейтинг {user.rating}")
+            res = f"🏆 Ваш рейтинг {user.rating}\n\n"
+
+            all_rating = [[hero.rating, hero.tg_username] for hero in self.storage.values()]
+
+            all_rating = sorted(all_rating)
+            all_rating.reverse()
+            for i in range(len(all_rating)):
+                title = f"{all_rating[i][0]} {all_rating[i][1]}"
+                res += f"\n<b>{i + 1}.</b>  {title}"
+            res += "\n\nИграй <b>больше</b>, чтобы быть самой яркой звездой 💥"
+            await self.send_message(user.tg_id, res)
         else:
             await user.current_dialog.temp(text)
 
@@ -58,9 +71,9 @@ class DialogLogic:
             logging.warning(f"Domain: Функция отправки сообщения не преопределена")
         logging.info(f"Domain: Отправлено сообщение {text} пользователю {tg_id}")
 
-    async def send_keyboard(self, tg_id: str, choices: list[str]):
+    async def send_keyboard(self, tg_id: str, choices: list[str], text: str = None):
         if self._send_keyboards:
-            await self._send_keyboards(tg_id, choices)
+            await self._send_keyboards(tg_id, choices, text)
         else:
             logging.warning(f"Domain: Функция отправки клавиатуры не преопределена")
         logging.info(f"Domain: Отправлена клавиатура пользователю {tg_id}: {' '.join(choices)}")
