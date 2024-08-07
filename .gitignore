@@ -20,3 +20,5 @@ pip-selfcheck.json
 *.iml
 out
 gen
+.env
+tg_module.secret_env!/tg_module/secret_env.py
